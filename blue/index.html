@@ -139,12 +139,17 @@
 
 
     <aside class="bg-dark">
-    <!--     <div class="container text-center">
+    <div class="container text-center">
             <div class="call-to-action">
-                <h2>Free Download at Start Bootstrap!</h2>
-                <a href="#" class="btn btn-default btn-xl wow tada">Download Now!</a>
+                <h2>Get notified when it's ready!</h2>
+                <span id="email-subscribe-msg"></span>
+                <br />
+                <input type="text" id="email-txt" placeholder="enter your email id" style="border-radius: 50px; width: 350px; height: 35px; margin-bottom:10px;text-align:center;color:black;">   
+                <br />      
+                <a href="#" class="btn btn-default btn-xl wow tada" id="subscribe-email">Subscribe</a>
+
             </div>
-        </div> -->
+        </div>
     </aside>
 
     <section id="contact">
@@ -181,6 +186,32 @@
     <!-- Custom Theme JavaScript -->
     <script src="js/creative.js"></script>
 
+
+<!-- email subscription -->
+                <script type="text/javascript">
+                
+                    $('#subscribe-email').on('click',function (e) {
+                        e.preventDefault();
+                        var email = $('#email-txt').val();
+                        var promise=$.ajax({
+                            url:'http://localhost:8000/api/subscribe/',
+                            method:'post',
+                            data:{
+                                email:email
+                            }
+                        });
+                        promise.then(function (apiResponse) {
+                            if(apiResponse.isSuccess){
+                                $('#email-subscribe-msg').text("Thank you for subscribing");
+                                $('#email-subscribe-msg').css('color','green');
+                            }
+                            else{
+                                $('#email-subscribe-msg').text(apiResponse.errMsg);                                
+                                $('#email-subscribe-msg').css('color','red');
+                            }
+                        })
+                    })
+                </script>
 </body>
 
 </html>
